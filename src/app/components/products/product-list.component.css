@@ -1,0 +1,18 @@
+h2 {
+    background-color:aquamarine;
+}
+
+tr {
+    padding-top: 10px;
+}
+  
+th {
+  padding-left: 50px;
+  padding-right: 50px;
+  color: green;
+}
+
+td {
+  padding-left: 50px;
+  padding-right: 50px;
+}

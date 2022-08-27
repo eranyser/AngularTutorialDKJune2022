@@ -1,4 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+
+/**
+ * to install bootstarp and font-awesome the command is:
+ * npm install bootstrap font-awesome
+ * than we need to import those libraries. we do it here in the global style sheet.
+ */
+
+/*@import "~bootstrap/dist/css/bootstrap.min.css";*/
+@import "~font-awesome/css/font-awesome.min.css";
+
 div.card-header {
  font-size: large;
 }
