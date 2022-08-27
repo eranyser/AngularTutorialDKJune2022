@@ -1,14 +1,23 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
+import { IProduct } from "src/app/models/products";
 
 @Component({
     selector: "product-list",
     templateUrl: "./product-list.component.html",
     styleUrls: ['./product-list.component.css']
 })
-export class ProductList {
+
+/**
+ * Lifecycle Hooks:
+ * the most common are:
+ * OnInit: Ususlly perform component initializaiton, retrive data
+ * OnChanges: Perform action after change to input porperties
+ * OnDestroy: Perform cleanup.
+ */
+export class ProductList implements OnInit{
     
     productTitle: string = "Products List";
-    products: any[] = [
+    products: IProduct[] = [
         {
           "productId": 1,
           "productName": "Leaf Rake",
@@ -60,12 +69,30 @@ export class ProductList {
           "imageUrl": "assets/images/xbox-controller.png"
         }
       ];
+      filteredProducts: IProduct[] = [];
       imageWidth: number = 50;
       imageMargin: number = 2;
       showImage: boolean = false;
-      listFilter: string = "";
+      _listFilter: string = "";
 
-      toggleImage() : void {
+      get listFilter() : string {
+        return this._listFilter;
+      }
+
+      set listFilter(value: string) {
+        this._listFilter = value;
+        this.filteredProducts = this.performFilter();
+      }
+
+      ngOnInit() :void {
+        this.filteredProducts = this.performFilter();
+
+      }
+      toggleImage(): void {
         this.showImage = !this.showImage;
+      }
+
+      performFilter() : IProduct[] {
+        return this.products.filter( (product: IProduct) => product.productName.toLowerCase().includes(this._listFilter.toLowerCase()) )
       }
 }
