@@ -60,4 +60,12 @@ export class ProductList {
           "imageUrl": "assets/images/xbox-controller.png"
         }
       ];
+      imageWidth: number = 50;
+      imageMargin: number = 2;
+      showImage: boolean = false;
+      listFilter: string = "";
+
+      toggleImage() : void {
+        this.showImage = !this.showImage;
+      }
 }

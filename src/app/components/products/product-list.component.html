@@ -1,10 +1,10 @@
 <header> <h2>{{productTitle}}</h2></header>
 <div>
-  Filter by: <input type='text'/>
+  Filter by: <input type='text' [(ngModel)]="listFilter"/>
 </div>
 <br>
 <div>
-  Filtered by: 
+  Filtered by: {{listFilter}}
 </div>
 <hr>
 <br><br>
@@ -13,7 +13,7 @@
     <thead>
       <tr>
         <th>
-          <button>Show Image</button> 
+          <button (click)="toggleImage()">{{showImage ? 'Hide' : 'Show'}} Image</button> 
         </th>
         <th>Product</th>
         <th>Code</th>
@@ -24,11 +24,29 @@
     </thead>
     <tbody>
         <tr *ngFor="let product of products">
-          <td></td>
+          <td>
+            <!--
+            We use for the img tag - property binding:
+                [src]='product.imageUrl'
+            We could also use interpolation bindings:
+                src = {{product.imageUrl}}
+            When using interpolation the element src is not enclosed in square brackets and no quotes.
+            Property bindings as opposed to interpolation bindings allows type bindings and not only strings:
+                < input type text='text' [disabled]='isDissabled'/>
+            The isDisabled is a boolean type property.
+            Sometimes we must use interpolation, for example:
+                <img src='http://myImages.org/{{product.imageUrl}}'>
+            -->
+            <img *ngIf="showImage"
+              [src]='product.imageUrl' 
+              [title]='product.productName'
+              [width]='imageWidth' 
+              [style.margin.px]='imageMargin' alt="">             
+          </td>
           <td>{{product.productName}}</td>
-          <td>{{product.productCode}}</td>
+          <td>{{product.productCode | lowercase}}</td>
           <td>{{product.releaseDate }}</td>
-          <td>{{product.price}}</td>
+          <td>{{product.price | currency:'USD':'symbol':'1.2-2'}}</td>
           <td>{{product.starRating}}</td>
         </tr>
     </tbody>
