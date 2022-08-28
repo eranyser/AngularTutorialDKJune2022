@@ -95,4 +95,8 @@ export class ProductList implements OnInit{
       performFilter() : IProduct[] {
         return this.products.filter( (product: IProduct) => product.productName.toLowerCase().includes(this._listFilter.toLowerCase()) )
       }
+
+      onRatingClicked(message: string) {
+        this.productTitle = `Products List: ${message}`
+      }
 }
