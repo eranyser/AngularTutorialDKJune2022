@@ -1,4 +1,5 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, SimpleChanges } from "@angular/core";
+import { Subscription } from "rxjs";
 import { IProduct } from "src/app/models/products";
 import { ProductService } from "src/app/services/product-list.service";
 
@@ -24,7 +25,14 @@ export class ProductList implements OnInit{
     imageMargin: number = 2;
     showImage: boolean = false;
     _listFilter: string = "";
-
+    errorMessage: string = "";
+    // since we set our project to use typescript strict checking, we must give the sub propety an initial default value
+    // we can declare it as:
+    // sub: Subscription | undefined
+    // or use sub!: Subscription - the ! is called definite assignmnet assertion that tell the typscript compiler that we will handle
+    // this assignment sometime later.
+    sub!: Subscription ;
+    
     /**
      *
      */
@@ -42,8 +50,24 @@ export class ProductList implements OnInit{
     }
    
     ngOnInit() :void {
-        this.products = this.productService.getProducts();
-        this.filteredProducts = this.performFilter();
+        this.sub = this.productService.getProducts().subscribe({
+            next: products => {
+                this.products = products;
+                this.filteredProducts = this.performFilter();
+            },
+            error: err => this.errorMessage = err
+        });
+        console.log("I am in ngOnInit lifecycle hook");
+
+    }
+    
+    ngOnChanges(changes: SimpleChanges): void {
+        console.log("I am in ngOnChanges lifecycle hook");
+    }
+
+    ngOnDestroy(): void {
+        console.log("I am in ngOnDestroy lifecycle hook");
+        this.sub.unsubscribe();
     }
     
     toggleImage(): void {
