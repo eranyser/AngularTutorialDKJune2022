@@ -1,3 +1,33 @@
-<div>
-    {{pageTitle}}
+<header><h2>{{pageTitle + ': ' + product?.productName}}</h2></header>
+<hr>
+
+<table *ngIf="product">
+    <tr>
+        <td>Name: </td>
+        <td>{{product.productName}} </td>
+    </tr>
+    <tr>
+        <td>Code: </td>
+        <td>{{product.productCode | lowercase | convertToSpaces: '-'}} </td>
+    </tr>
+    <tr>
+        <td>Description: </td>
+        <td>{{product.description }} </td>
+    </tr>
+    <tr>
+        <td>Availability: </td>
+        <td>{{product.releaseDate }} </td>
+    </tr>
+    <tr>
+        <td>Price: </td>
+        <td>{{product.price | currency: 'USD': 'symbol' }} </td>
+    </tr>
+</table>
+
+<div *ngIf="product">
+    <img [style.width.px]='200'
+         [style.margin.px]='2'
+         [src]='product.imageUrl'
+         [title]='product.productName'>
 </div>
+<button (click)="onBack()"><i class="fa fa-chevron-left"></i> Back</button>

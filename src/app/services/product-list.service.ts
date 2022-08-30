@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, throwError } from "rxjs";
 import { IProduct } from "../models/products";
-import { tap, catchError } from "rxjs/operators";
+import { tap, catchError, map } from "rxjs/operators";
 
 @Injectable({
     providedIn: 'root'
@@ -23,6 +23,17 @@ export class ProductService {
         );
     }
 
+    /**
+     * In an ideal solution we were saving the product list in some sort of data structure / store and use it to get
+     * the product with the requeseted ID. Here we just callling the getProducts again.
+     * @param id
+     */
+    getProductByID(id: number): Observable<IProduct | undefined> {
+        return this.getProducts().pipe(
+          map((products: IProduct[]) => (products.find(product => product.productId == id)))
+        )
+    }   
+     
     private handleError(err: HttpErrorResponse) {
         // in a real world app, we may send the server to some remote logging infrastructure
         // instead of just loggin it to the console
